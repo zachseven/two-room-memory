@@ -1,6 +1,6 @@
 # Two-Room Memory Architecture: Efficient Context Management for LLM Memory Systems via Triviality Gating
 
-**Zachary Epstein and Claude (Anthropic)**
+**Zachary Epstein and Claude Code (Anthropic)**
 
 **January 2026**
 
