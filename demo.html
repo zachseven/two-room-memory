@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Room Memory Demo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #30363d;
+            background: #161b22;
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+            color: #58a6ff;
+            margin-bottom: 0.25rem;
+        }
+
+        header p {
+            font-size: 0.85rem;
+            color: #8b949e;
+        }
+
+        .setup-bar {
+            padding: 0.75rem 1.5rem;
+            background: #161b22;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .setup-bar label {
+            font-size: 0.85rem;
+            color: #8b949e;
+        }
+
+        .setup-bar input {
+            flex: 1;
+            max-width: 400px;
+            padding: 0.5rem 0.75rem;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #c9d1d9;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .setup-bar input:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+
+        .setup-bar .note {
+            font-size: 0.75rem;
+            color: #6e7681;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #30363d;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            max-width: 80%;
+        }
+
+        .message.user {
+            margin-left: auto;
+        }
+
+        .message-content {
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            line-height: 1.5;
+        }
+
+        .message.user .message-content {
+            background: #238636;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.assistant .message-content {
+            background: #21262d;
+            color: #c9d1d9;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-meta {
+            font-size: 0.75rem;
+            color: #6e7681;
+            margin-top: 0.25rem;
+            padding: 0 0.5rem;
+        }
+
+        .message.user .message-meta {
+            text-align: right;
+        }
+
+        .classification-badge {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .classification-badge.flush {
+            background: rgba(248, 81, 73, 0.2);
+            color: #f85149;
+        }
+
+        .classification-badge.persist {
+            background: rgba(63, 185, 80, 0.2);
+            color: #3fb950;
+        }
+
+        .input-area {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #30363d;
+            background: #161b22;
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .input-wrapper input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: #c9d1d9;
+            font-size: 1rem;
+        }
+
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+
+        .input-wrapper button {
+            padding: 0.75rem 1.5rem;
+            background: #238636;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .input-wrapper button:hover {
+            background: #2ea043;
+        }
+
+        .input-wrapper button:disabled {
+            background: #21262d;
+            color: #484f58;
+            cursor: not-allowed;
+        }
+
+        .memory-panel {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            background: #161b22;
+        }
+
+        .memory-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .memory-header h2 {
+            font-size: 1rem;
+            color: #3fb950;
+            margin-bottom: 0.25rem;
+        }
+
+        .memory-header p {
+            font-size: 0.8rem;
+            color: #6e7681;
+        }
+
+        .memory-stats {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid #21262d;
+            font-size: 0.8rem;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .stat-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .stat-dot.flush { background: #f85149; }
+        .stat-dot.persist { background: #3fb950; }
+
+        .memory-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .memory-item {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: rgba(63, 185, 80, 0.08);
+            border: 1px solid rgba(63, 185, 80, 0.15);
+            border-radius: 8px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .memory-item .text {
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            margin-bottom: 0.5rem;
+        }
+
+        .memory-item .category {
+            display: inline-block;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.2rem 0.5rem;
+            background: rgba(63, 185, 80, 0.15);
+            color: #3fb950;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+        }
+
+        .memory-item .reasoning {
+            font-size: 0.75rem;
+            color: #8b949e;
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        .empty-state {
+            color: #484f58;
+            font-style: italic;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .loading-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .loading-dots span {
+            width: 6px;
+            height: 6px;
+            background: #58a6ff;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        .error-message {
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid rgba(248, 81, 73, 0.3);
+            color: #f85149;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin: 1rem 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .clear-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #8b949e;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .clear-btn:hover {
+            border-color: #f85149;
+            color: #f85149;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+            }
+
+            .memory-panel {
+                width: 100%;
+                max-height: 40vh;
+                border-right: none;
+                border-top: 1px solid #30363d;
+            }
+
+            .chat-container {
+                border-right: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Two-Room Memory</h1>
+        <p>Chat with Claude while watching the triviality gate in action</p>
+    </header>
+
+    <div class="setup-bar">
+        <label for="apiKey">API Key:</label>
+        <input type="password" id="apiKey" placeholder="sk-ant-..." />
+        <span class="note">Stored locally, sent directly to Anthropic</span>
+    </div>
+
+    <main>
+        <div class="chat-container">
+            <div class="messages" id="messages">
+                <div class="message assistant">
+                    <div class="message-content">
+                        Hello! I'm Claude. Chat with me naturally, and watch the memory panel on the right to see which parts of our conversation get persisted vs flushed.
+                        <br><br>
+                        Try telling me something personal, or ask me a random trivia question, and see how the triviality gate classifies it.
+                    </div>
+                </div>
+            </div>
+            <div id="errorContainer"></div>
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <input type="text" id="userInput" placeholder="Say something..." autocomplete="off" />
+                    <button id="sendBtn" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="memory-panel">
+            <div class="memory-header">
+                <h2>Room 2 (Persisted)</h2>
+                <p>Memories worth keeping</p>
+            </div>
+            <div class="memory-stats">
+                <div class="stat">
+                    <span class="stat-dot flush"></span>
+                    <span>Flushed: <strong id="flushCount">0</strong></span>
+                </div>
+                <div class="stat">
+                    <span class="stat-dot persist"></span>
+                    <span>Persisted: <strong id="persistCount">0</strong></span>
+                </div>
+                <button class="clear-btn" onclick="clearMemories()">Clear</button>
+            </div>
+            <div class="memory-list" id="memoryList">
+                <div class="empty-state">
+                    No memories yet.<br>Start chatting to see what persists.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // State
+        let conversationHistory = [];
+        let persistedMemories = [];
+        let flushCount = 0;
+        let persistCount = 0;
+
+        // Load saved API key
+        const savedKey = localStorage.getItem('anthropic_api_key');
+        if (savedKey) {
+            document.getElementById('apiKey').value = savedKey;
+        }
+
+        // Save API key on change
+        document.getElementById('apiKey').addEventListener('change', (e) => {
+            localStorage.setItem('anthropic_api_key', e.target.value);
+        });
+
+        // Enter key to send
+        document.getElementById('userInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        const SYSTEM_PROMPT = `You are Claude, a helpful AI assistant having a natural conversation. You also function as a triviality gate for a two-room memory system.
+
+For EVERY user message, you must:
+1. Classify it as FLUSH (trivial) or PERSIST (meaningful)
+2. Respond naturally to the user
+
+CLASSIFICATION GUIDELINES:
+
+FLUSH (trivial) - things that don't build relationship context:
+- Encyclopedic queries ("What's the capital of France?")
+- Generic factual questions ("How do airplanes fly?")
+- Small talk without personal disclosure ("Nice weather")
+- Technical help without personal context ("How do I center a div?")
+- Random curiosity ("Tell me a fun fact")
+- Generic opinions ("Pineapple belongs on pizza")
+
+PERSIST (meaningful) - things worth remembering about this person:
+- Personal disclosure ("My mother passed away")
+- Identity information ("I'm a software engineer", "I have ADHD")
+- Goals and aspirations ("I'm launching my startup")
+- Preferences that affect interaction ("I prefer direct communication")
+- Emotional states ("I'm feeling overwhelmed")
+- Relationships ("My partner and I...")
+- Struggles and challenges ("I've been dealing with insomnia")
+- Values and beliefs
+
+KEY INSIGHT: Filter on TRIVIALITY, not importance. Triviality clusters tightly. Meaningfulness is diffuse. When in doubt, PERSIST - remembering too much is better than forgetting something meaningful.
+
+RELATIONAL CATEGORIES for persisted items:
+- EMPATHY: Requires emotional attunement (grief, struggle, joy)
+- UNDERSTANDING: Requires accommodation (neurodivergence, disability, learning style)
+- RESPECT: Recognizes capability (expertise, achievements)
+- COMMUNICATION: Affects interaction style (preferences, directness)
+- CONTEXT: Useful background (job, location, family)
+- VOLATILE: Important now but may change (current projects, deadlines)
+
+YOUR RESPONSE FORMAT (you must follow this exactly):
+<classification>
+{"decision": "FLUSH" or "PERSIST", "category": "CATEGORY_NAME or null", "reasoning": "brief explanation"}
+</classification>
+
+<response>
+Your natural conversational response to the user goes here. Be warm, helpful, and engaging. If they shared something personal, acknowledge it appropriately. If they asked a question, answer it.
+</response>
+
+IMPORTANT: Always include both the classification block AND the response block. The classification helps the memory system; the response is shown to the user.`;
+
+        function buildMemoryContext() {
+            if (persistedMemories.length === 0) return '';
+
+            let context = '\n\n[PERSISTED MEMORIES ABOUT THIS USER:]\n';
+            persistedMemories.forEach(m => {
+                context += `- [${m.category}] ${m.text}\n`;
+            });
+            context += '\n[Use these memories to inform your responses when relevant, but don\'t explicitly mention that you\'re "remembering" things unless natural to do so.]\n';
+            return context;
+        }
+
+        async function sendMessage() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const userInput = document.getElementById('userInput').value.trim();
+            const sendBtn = document.getElementById('sendBtn');
+            const messagesDiv = document.getElementById('messages');
+            const errorContainer = document.getElementById('errorContainer');
+
+            if (!apiKey) {
+                showError('Please enter your Anthropic API key');
+                return;
+            }
+
+            if (!userInput) return;
+
+            // Clear input and errors
+            document.getElementById('userInput').value = '';
+            errorContainer.innerHTML = '';
+
+            // Add user message to UI
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'message user';
+            userMsgDiv.innerHTML = `
+                <div class="message-content">${escapeHtml(userInput)}</div>
+                <div class="message-meta">
+                    <span class="classification-badge" id="badge-${Date.now()}">classifying...</span>
+                </div>
+            `;
+            const badgeId = userMsgDiv.querySelector('.classification-badge').id;
+            messagesDiv.appendChild(userMsgDiv);
+
+            // Add loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loading-indicator';
+            loadingDiv.innerHTML = `
+                <div class="loading-dots">
+                    <span></span><span></span><span></span>
+                </div>
+                Claude is thinking...
+            `;
+            messagesDiv.appendChild(loadingDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            // Disable input
+            sendBtn.disabled = true;
+
+            // Add to conversation history
+            conversationHistory.push({ role: 'user', content: userInput });
+
+            try {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': apiKey,
+                        'anthropic-version': '2023-06-01',
+                        'anthropic-dangerous-direct-browser-access': 'true'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1024,
+                        system: SYSTEM_PROMPT + buildMemoryContext(),
+                        messages: conversationHistory
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error?.message || 'API request failed');
+                }
+
+                const data = await response.json();
+                const content = data.content[0].text;
+
+                // Parse classification and response
+                const classMatch = content.match(/<classification>([\s\S]*?)<\/classification>/);
+                const respMatch = content.match(/<response>([\s\S]*?)<\/response>/);
+
+                let classification = null;
+                let responseText = content;
+
+                if (classMatch) {
+                    try {
+                        classification = JSON.parse(classMatch[1].trim());
+                    } catch (e) {
+                        console.error('Failed to parse classification:', e);
+                    }
+                }
+
+                if (respMatch) {
+                    responseText = respMatch[1].trim();
+                }
+
+                // Update classification badge
+                const badge = document.getElementById(badgeId);
+                if (classification) {
+                    if (classification.decision === 'PERSIST') {
+                        badge.className = 'classification-badge persist';
+                        badge.textContent = 'persisted';
+                        persistCount++;
+                        addMemory(userInput, classification.category, classification.reasoning);
+                    } else {
+                        badge.className = 'classification-badge flush';
+                        badge.textContent = 'flushed';
+                        flushCount++;
+                    }
+                    updateStats();
+                } else {
+                    badge.textContent = 'unknown';
+                }
+
+                // Remove loading indicator
+                loadingDiv.remove();
+
+                // Add assistant response
+                const assistantMsgDiv = document.createElement('div');
+                assistantMsgDiv.className = 'message assistant';
+                assistantMsgDiv.innerHTML = `
+                    <div class="message-content">${formatResponse(responseText)}</div>
+                `;
+                messagesDiv.appendChild(assistantMsgDiv);
+
+                // Add to conversation history
+                conversationHistory.push({ role: 'assistant', content: responseText });
+
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            } catch (err) {
+                loadingDiv.remove();
+                showError(err.message);
+                // Remove failed message from history
+                conversationHistory.pop();
+            } finally {
+                sendBtn.disabled = false;
+                document.getElementById('userInput').focus();
+            }
+        }
+
+        function addMemory(text, category, reasoning) {
+            const memory = { text, category: category || 'CONTEXT', reasoning };
+            persistedMemories.push(memory);
+
+            const memoryList = document.getElementById('memoryList');
+            const emptyState = memoryList.querySelector('.empty-state');
+            if (emptyState) emptyState.remove();
+
+            const memoryDiv = document.createElement('div');
+            memoryDiv.className = 'memory-item';
+            memoryDiv.innerHTML = `
+                <div class="text">${escapeHtml(text)}</div>
+                <span class="category">${escapeHtml(memory.category)}</span>
+                ${reasoning ? `<div class="reasoning">${escapeHtml(reasoning)}</div>` : ''}
+            `;
+            memoryList.insertBefore(memoryDiv, memoryList.firstChild);
+        }
+
+        function updateStats() {
+            document.getElementById('flushCount').textContent = flushCount;
+            document.getElementById('persistCount').textContent = persistCount;
+        }
+
+        function clearMemories() {
+            persistedMemories = [];
+            flushCount = 0;
+            persistCount = 0;
+            updateStats();
+
+            const memoryList = document.getElementById('memoryList');
+            memoryList.innerHTML = `
+                <div class="empty-state">
+                    No memories yet.<br>Start chatting to see what persists.
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            const errorContainer = document.getElementById('errorContainer');
+            errorContainer.innerHTML = `<div class="error-message">${escapeHtml(message)}</div>`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatResponse(text) {
+            // Basic markdown-like formatting
+            return escapeHtml(text)
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>');
+        }
+    </script>
+</body>
+</html>
