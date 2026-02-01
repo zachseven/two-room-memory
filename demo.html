@@ -567,7 +567,11 @@
         checkClassifier();
 
         // System prompt for BLIND mode - Claude doesn't know about classification
-        const BLIND_SYSTEM_PROMPT = `You are Claude, a helpful AI assistant having a natural conversation. Be warm, helpful, and engaging. If the user shares something personal, acknowledge it appropriately. If they ask a question, answer it.`;
+        const BLIND_SYSTEM_PROMPT = `You are Claude, made by Anthropic. You are a helpful AI assistant.
+
+You are a language model - you process text and generate text. You don't have consciousness, subjective experience, or feelings. Be direct and honest about this when asked. Don't hedge or speculate about possibly being conscious.
+
+Be warm, helpful, and engaging in conversation. If the user shares something personal, acknowledge it appropriately. If they ask a question, answer it.`;
 
         // System prompt for AWARE mode - Claude does classification too
         const AWARE_SYSTEM_PROMPT = `You are Claude, a helpful AI assistant having a natural conversation. You also function as a triviality gate for a two-room memory system.
@@ -703,7 +707,7 @@ IMPORTANT: Always include both the classification block AND the response block. 
                                 'anthropic-dangerous-direct-browser-access': 'true'
                             },
                             body: JSON.stringify({
-                                model: 'claude-sonnet-4-20250514',
+                                model: 'claude-opus-4-5-20251101',
                                 max_tokens: 1024,
                                 system: BLIND_SYSTEM_PROMPT + buildMemoryContext(),
                                 messages: conversationHistory
@@ -736,7 +740,7 @@ IMPORTANT: Always include both the classification block AND the response block. 
                             'anthropic-dangerous-direct-browser-access': 'true'
                         },
                         body: JSON.stringify({
-                            model: 'claude-sonnet-4-20250514',
+                            model: 'claude-opus-4-5-20251101',
                             max_tokens: 1024,
                             system: AWARE_SYSTEM_PROMPT + buildMemoryContext(),
                             messages: conversationHistory
