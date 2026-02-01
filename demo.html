@@ -197,65 +197,88 @@
             cursor: not-allowed;
         }
 
-        .memory-panel {
-            width: 320px;
+        .memory-panels {
+            width: 380px;
             display: flex;
             flex-direction: column;
             background: #161b22;
         }
 
-        .memory-header {
-            padding: 1rem 1.25rem;
+        .memory-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .memory-panel.room1 {
             border-bottom: 1px solid #30363d;
         }
 
-        .memory-header h2 {
-            font-size: 1rem;
-            color: #3fb950;
-            margin-bottom: 0.25rem;
+        .memory-header {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .memory-header p {
-            font-size: 0.8rem;
+        .memory-header-text h2 {
+            font-size: 0.95rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .memory-panel.room1 .memory-header-text h2 {
+            color: #f85149;
+        }
+
+        .memory-panel.room2 .memory-header-text h2 {
+            color: #3fb950;
+        }
+
+        .memory-header-text p {
+            font-size: 0.75rem;
             color: #6e7681;
         }
 
-        .memory-stats {
-            display: flex;
-            gap: 1rem;
-            padding: 0.75rem 1.25rem;
-            border-bottom: 1px solid #21262d;
-            font-size: 0.8rem;
+        .memory-count {
+            font-size: 1.25rem;
+            font-weight: bold;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
         }
 
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
+        .memory-panel.room1 .memory-count {
+            background: rgba(248, 81, 73, 0.15);
+            color: #f85149;
         }
 
-        .stat-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
+        .memory-panel.room2 .memory-count {
+            background: rgba(63, 185, 80, 0.15);
+            color: #3fb950;
         }
-
-        .stat-dot.flush { background: #f85149; }
-        .stat-dot.persist { background: #3fb950; }
 
         .memory-list {
             flex: 1;
             overflow-y: auto;
-            padding: 1rem;
+            padding: 0.75rem;
         }
 
         .memory-item {
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
+            padding: 0.6rem 0.75rem;
+            margin-bottom: 0.4rem;
+            border-radius: 6px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .memory-panel.room1 .memory-item {
+            background: rgba(248, 81, 73, 0.08);
+            border: 1px solid rgba(248, 81, 73, 0.15);
+        }
+
+        .memory-panel.room2 .memory-item {
             background: rgba(63, 185, 80, 0.08);
             border: 1px solid rgba(63, 185, 80, 0.15);
-            border-radius: 8px;
-            animation: slideIn 0.3s ease;
         }
 
         @keyframes slideIn {
@@ -270,28 +293,28 @@
         }
 
         .memory-item .text {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #c9d1d9;
-            margin-bottom: 0.5rem;
         }
 
         .memory-item .category {
             display: inline-block;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            padding: 0.2rem 0.5rem;
+            padding: 0.15rem 0.4rem;
             background: rgba(63, 185, 80, 0.15);
             color: #3fb950;
             border-radius: 4px;
+            margin-top: 0.4rem;
             margin-right: 0.5rem;
         }
 
         .memory-item .reasoning {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #8b949e;
             font-style: italic;
-            margin-top: 0.5rem;
+            margin-top: 0.35rem;
         }
 
         .empty-state {
@@ -343,14 +366,13 @@
         }
 
         .clear-btn {
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.75rem;
             background: transparent;
             border: 1px solid #30363d;
             border-radius: 6px;
             color: #8b949e;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
-            margin-left: auto;
         }
 
         .clear-btn:hover {
@@ -358,16 +380,32 @@
             color: #f85149;
         }
 
+        .panel-actions {
+            padding: 0.5rem 1rem;
+            border-top: 1px solid #21262d;
+            display: flex;
+            justify-content: flex-end;
+        }
+
         @media (max-width: 768px) {
             main {
                 flex-direction: column;
             }
 
-            .memory-panel {
+            .memory-panels {
                 width: 100%;
-                max-height: 40vh;
-                border-right: none;
-                border-top: 1px solid #30363d;
+                max-height: 50vh;
+                flex-direction: row;
+            }
+
+            .memory-panel {
+                flex: 1;
+                border-bottom: none;
+            }
+
+            .memory-panel.room1 {
+                border-right: 1px solid #30363d;
+                border-bottom: none;
             }
 
             .chat-container {
@@ -408,26 +446,37 @@
             </div>
         </div>
 
-        <div class="memory-panel">
-            <div class="memory-header">
-                <h2>Room 2 (Persisted)</h2>
-                <p>Memories worth keeping</p>
+        <div class="memory-panels">
+            <div class="memory-panel room1">
+                <div class="memory-header">
+                    <div class="memory-header-text">
+                        <h2>Room 1 (Flushed)</h2>
+                        <p>Trivial, forgotten</p>
+                    </div>
+                    <span class="memory-count" id="flushCount">0</span>
+                </div>
+                <div class="memory-list" id="flushList">
+                    <div class="empty-state">
+                        Flushed items appear here
+                    </div>
+                </div>
             </div>
-            <div class="memory-stats">
-                <div class="stat">
-                    <span class="stat-dot flush"></span>
-                    <span>Flushed: <strong id="flushCount">0</strong></span>
+            <div class="memory-panel room2">
+                <div class="memory-header">
+                    <div class="memory-header-text">
+                        <h2>Room 2 (Persisted)</h2>
+                        <p>Meaningful, remembered</p>
+                    </div>
+                    <span class="memory-count" id="persistCount">0</span>
                 </div>
-                <div class="stat">
-                    <span class="stat-dot persist"></span>
-                    <span>Persisted: <strong id="persistCount">0</strong></span>
+                <div class="memory-list" id="memoryList">
+                    <div class="empty-state">
+                        Persisted memories appear here
+                    </div>
                 </div>
-                <button class="clear-btn" onclick="clearMemories()">Clear</button>
             </div>
-            <div class="memory-list" id="memoryList">
-                <div class="empty-state">
-                    No memories yet.<br>Start chatting to see what persists.
-                </div>
+            <div class="panel-actions">
+                <button class="clear-btn" onclick="clearAll()">Clear All</button>
             </div>
         </div>
     </main>
@@ -620,6 +669,7 @@ IMPORTANT: Always include both the classification block AND the response block. 
                         badge.className = 'classification-badge flush';
                         badge.textContent = 'flushed';
                         flushCount++;
+                        addFlush(userInput, classification.reasoning);
                     }
                     updateStats();
                 } else {
@@ -653,6 +703,20 @@ IMPORTANT: Always include both the classification block AND the response block. 
             }
         }
 
+        function addFlush(text, reasoning) {
+            const flushList = document.getElementById('flushList');
+            const emptyState = flushList.querySelector('.empty-state');
+            if (emptyState) emptyState.remove();
+
+            const flushDiv = document.createElement('div');
+            flushDiv.className = 'memory-item';
+            flushDiv.innerHTML = `
+                <div class="text">${escapeHtml(text)}</div>
+                ${reasoning ? `<div class="reasoning">${escapeHtml(reasoning)}</div>` : ''}
+            `;
+            flushList.insertBefore(flushDiv, flushList.firstChild);
+        }
+
         function addMemory(text, category, reasoning) {
             const memory = { text, category: category || 'CONTEXT', reasoning };
             persistedMemories.push(memory);
@@ -676,17 +740,17 @@ IMPORTANT: Always include both the classification block AND the response block. 
             document.getElementById('persistCount').textContent = persistCount;
         }
 
-        function clearMemories() {
+        function clearAll() {
             persistedMemories = [];
             flushCount = 0;
             persistCount = 0;
             updateStats();
 
-            const memoryList = document.getElementById('memoryList');
-            memoryList.innerHTML = `
-                <div class="empty-state">
-                    No memories yet.<br>Start chatting to see what persists.
-                </div>
+            document.getElementById('flushList').innerHTML = `
+                <div class="empty-state">Flushed items appear here</div>
+            `;
+            document.getElementById('memoryList').innerHTML = `
+                <div class="empty-state">Persisted memories appear here</div>
             `;
         }
 
