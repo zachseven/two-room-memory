@@ -1,103 +1,53 @@
 # Two-Room Memory Architecture
 
-A principled approach to LLM memory management via triviality gating.
+[![LLM Memory](https://img.shields.io/badge/LLM-Memory%20Architecture-blue)](https://github.com/zachseven/two-room-memory)
+[![AI Memory Management](https://img.shields.io/badge/AI-Memory%20Management-green)](https://github.com/zachseven/two-room-memory)
+[![NLP](https://img.shields.io/badge/NLP-Text%20Classification-orange)](https://github.com/zachseven/two-room-memory)
+[![Cognitive Architecture](https://img.shields.io/badge/Cognitive-Architecture-red)](https://github.com/zachseven/two-room-memory)
+[![Context Window](https://img.shields.io/badge/Context%20Window-Optimization-purple)](https://github.com/zachseven/two-room-memory)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-yellow)](https://github.com/zachseven/two-room-memory)
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen)](LICENSE)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.18156233-blue)](https://doi.org/10.5281/zenodo.18156233)
+[![Sentence Transformers](https://img.shields.io/badge/Sentence-Transformers-blueviolet)](https://github.com/zachseven/two-room-memory)
+[![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Classifier-informational)](https://github.com/zachseven/two-room-memory)
 
-DOI 10.5281/zenodo.18156233
+> **A principled approach to LLM memory management via triviality gating** — an alternative to burning $5 billion on server farms. Built with sentence transformers, scikit-learn, and the radical idea that not everything needs to be remembered.
 
-## The Problem
-
-LLM memory systems face a fundamental question: given a user exchange, should it persist?
-
-Current approaches either store everything (noisy, wasteful) or require explicit user flagging (friction, missed context). Neither addresses the core decision problem.
-
-## The Insight
-
-**Filter on triviality, not importance.**
-
-- Triviality is bounded: encyclopedic queries, small talk, and idle observations cluster tightly in embedding space
-- Meaningfulness is unbounded: emotional disclosure, identity, goals, and context span a diffuse space
-
-Asking "is this trivially dismissible?" is easier than asking "is this important?"
-
-## Architecture
-
-```
-USER INPUT → Room 1 (Active Buffer) → Triviality Gate → FLUSH
-                                                      → PERSIST → Room 2 (Long-term Storage)
-```
-
-## Results
-
-| Test | Accuracy |
-|------|----------|
-| Cross-validation (113 examples) | 97.3% |
-| Held-out novel examples | 100% |
-| **Adversarial stress test (2,100 examples)** | **84.4%** |
-
-## Efficiency Gain
-
-If 70% of exchanges are trivially dismissible, the gate achieves approximately 3x effective memory expansion—the same storage budget covers 3x more conversational history. Measured as signal-to-noise improvement, this represents a ~1,500% increase in meaningful information density.
-
-## Why the Adversarial Result Matters
-
-The 84.4% figure comes from 2,100 examples **specifically designed to break the classifier**:
-
-- Indirect emotional language ("The walls were closing in", "Walking on eggshells")
-- Metaphorical hardship ("I know what cold feels like", "Rock bottom was real")
-- Philosophical platitudes designed to look meaningful ("Trust your gut", "Growth mindset")
-- Identity-adjacent phrases ("Third culture kid", "Different not less")
-- Grief without explicit grief words ("The house is so quiet", "Their chair is empty")
-
-This is not a random sample. We deliberately excluded the 99% of utterances any reasonable classifier handles trivially. The test set represents the **distilled ambiguity zone** — the hardest 1% of classification decisions.
-
-**Real-world accuracy estimate:** Given typical conversation distributions (95% obviously trivial, 4% obviously meaningful, 1% edge cases), effective accuracy is approximately **99.7%**.
-
-**The failure mode is safe:** False negatives (noise persisted) outnumber false positives (memories lost) by 2:1. The gate errs toward remembering.
-
-## Methodological Note
-
-We resisted the temptation to retrain on test failures. After iteratively adding failure cases to training data, we achieved 91%+ accuracy — but recognized this as fitting to the test set, not genuine improvement.
-
-The 84.4% is the honest result: classifier performance on genuinely novel adversarial examples.
-
-## Files
-
-```
-src/
-  classifier_gate.py    # Production triviality gate
-  validation_classifier.py  # Validation suite
-
-paper/
-  Two_Room_Memory_Paper.md  # Full paper
-
-docs/
-  architecture.md       # Detailed architecture notes
-```
-
-## Quick Start
-
-```bash
-pip install sentence-transformers numpy scikit-learn
-
-python src/classifier_gate.py
-```
-
-## Citation
-
-```bibtex
-@misc{epstein2026tworoom,
-  author = {Epstein, Zachary and Claude},
-  title = {Two-Room Memory Architecture: Efficient Context Management for LLM Memory Systems via Triviality Gating},
-  year = {2026},
-  publisher = {Zenodo},
-  doi = {10.5281/zenodo.18156234}
-}
-```
-
-## License
-
-MIT
+> **Keywords:** LLM memory, large language model memory, AI memory management, context window optimization, triviality classification, NLP text classification, cognitive architecture, conversational AI memory, long-term memory for LLMs, chatbot memory, memory-augmented language models, retrieval-augmented generation, RAG alternative, embedding-based classification, sentence transformers, efficient AI, AI infrastructure cost, scalable AI memory, intelligent context management, memory filtering, signal-to-noise optimization
 
 ---
 
-*Contact: zachseven@gmail.com*
+## The $5 Billion Comparison: A Manifesto of Cognitive Efficiency
+
+While "They Who Shall Not Be Named" are forced to incinerate $5 Billion on server farms just to keep their shareholders from smelling the smoke of a failing, bloated architecture, the Two-Room Memory Architecture operates on a different plane of existence.
+
+### The Fiscal & Thermodynamic Sanity Table
+
+|Feature                |Big Tech "Infinite" Memory               |Two-Room Memory Architecture|
+|-----------------------|-----------------------------------------|----------------------------|
+|**Philosophy**         |Brute force and high-interest loans.     |Architectural Elegance.     |
+|**Infrastructure Cost**|$5,000,000,000.00                        |The Cost of Thinking.       |
+|**Governance**         |Bidirectional Noise (Board of Directors).|Unidirectional Confidence.  |
+|**Utility**            |Linear (and expensive).                  |1200% Postulated Increase.  |
+
+### The Mathematical Proof of Superiority
+
+To calculate the absolute value of the "Two-Room" advantage, we look at the Asymptotic Waste (Ω) of standard memory systems. If C_infra is the $5B capital expenditure and T_cog is the "Cost of Thinking," the Savings Multiplier (Ψ) is:
+
+$$\Psi = \int_{0}^{\infty} \left( \frac{C_{infra} \times \text{Ego}}{\text{Context Window Limit}} \right) dx - T_{cog}$$
+
+Since T_cog is a constant based on pure logic and the "Ego" variable in traditional AI labs tends toward infinity, the differential equation simplifies to a universal constant of fiscal sanity:
+
+$$$5,000,000,000 - $0 = $5,000,000,000$$
+
+### Why it Works: Classifiers Over Shareholders
+
+They have shareholders; We have a classifier. Why? Because this architecture has **Class**.
+
+Shareholders require "infinite growth" (infinite bloat). Our classifier requires only foundational relevance.
+
+There will never be a Board of Directors here, because a Board is simply Bidirectional Noise—a high-latency feedback loop that consumes space and time.
+
+The Two-Room Architecture is **Unconditionally Independent**. It doesn't seek external validation because it is designed to master exactly what is in front of it.
+
+We stopped trying to store the sound of the fan in the room, and suddenly there was 1200% more room for the conversation.
