@@ -1,5 +1,22 @@
 # Two-Room Memory Architecture
 
+[![LLM Memory](https://img.shields.io/badge/LLM-Memory%20Architecture-blue)](https://github.com/zachseven/two-room-memory)
+[![AI Memory Management](https://img.shields.io/badge/AI-Memory%20Management-green)](https://github.com/zachseven/two-room-memory)
+[![NLP](https://img.shields.io/badge/NLP-Text%20Classification-orange)](https://github.com/zachseven/two-room-memory)
+[![Cognitive Architecture](https://img.shields.io/badge/Cognitive-Architecture-red)](https://github.com/zachseven/two-room-memory)
+[![Context Window](https://img.shields.io/badge/Context%20Window-Optimization-purple)](https://github.com/zachseven/two-room-memory)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-yellow)](https://github.com/zachseven/two-room-memory)
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen)](LICENSE)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.18156233-blue)](https://doi.org/10.5281/zenodo.18156233)
+[![Sentence Transformers](https://img.shields.io/badge/Sentence-Transformers-blueviolet)](https://github.com/zachseven/two-room-memory)
+[![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Classifier-informational)](https://github.com/zachseven/two-room-memory)
+
+> **A principled approach to LLM memory management via triviality gating** — an alternative to burning $5 billion on server farms. Built with sentence transformers, scikit-learn, and the radical idea that not everything needs to be remembered.
+
+> **Keywords:** LLM memory, large language model memory, AI memory management, context window optimization, triviality classification, NLP text classification, cognitive architecture, conversational AI memory, long-term memory for LLMs, chatbot memory, memory-augmented language models, retrieval-augmented generation, RAG alternative, embedding-based classification, sentence transformers, efficient AI, AI infrastructure cost, scalable AI memory, intelligent context management, memory filtering, signal-to-noise optimization
+
+---
+
 ## The $5 Billion Comparison: A Manifesto of Cognitive Efficiency
 
 While "They Who Shall Not Be Named" are forced to incinerate $5 Billion on server farms just to keep their shareholders from smelling the smoke of a failing, bloated architecture, the Two-Room Memory Architecture operates on a different plane of existence.
