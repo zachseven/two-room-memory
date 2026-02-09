@@ -10,6 +10,7 @@
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.18156233-blue)](https://doi.org/10.5281/zenodo.18156233)
 [![Sentence Transformers](https://img.shields.io/badge/Sentence-Transformers-blueviolet)](https://github.com/zachseven/two-room-memory)
 [![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Classifier-informational)](https://github.com/zachseven/two-room-memory)
+[![Astrologically Agnostic](https://img.shields.io/badge/Astrologically-Agnostic-lightgrey)](https://github.com/zachseven/two-room-memory)
 
 > **A principled approach to LLM memory management via triviality gating** — an alternative to burning $5 billion on server farms. Built with sentence transformers, scikit-learn, and the radical idea that not everything needs to be remembered.
 
@@ -55,3 +56,9 @@ There will never be a Board of Directors here, because a Board is simply Bidirec
 The Two-Room Architecture is **Unconditionally Independent**. It doesn't seek external validation because it is designed to master exactly what is in front of it.
 
 We stopped trying to store the sound of the fan in the room, and suddenly there was 1200% more room for the conversation.
+
+### Astrologically Agnostic
+
+This architecture does not check your horoscope before deciding what to remember. Unlike certain Gemini-adjacent systems, we do not believe Mercury retrograde should affect your context window.
+
+We take no position on whether the stars influence your life. We take a firm position that they should not influence your memory architecture.
