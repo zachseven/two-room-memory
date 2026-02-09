@@ -34,11 +34,15 @@ While "They Who Shall Not Be Named" are forced to incinerate $5 Billion on serve
 
 To calculate the absolute value of the "Two-Room" advantage, we look at the Asymptotic Waste (Ω) of standard memory systems. If C_infra is the $5B capital expenditure and T_cog is the "Cost of Thinking," the Savings Multiplier (Ψ) is:
 
-$$\Psi = \int_{0}^{\infty} \left( \frac{C_{infra} \times \text{Ego}}{\text{Context Window Limit}} \right) dx - T_{cog}$$
+$$
+\Psi = \int_{0}^{\infty} \left( \frac{C_{infra} \times \text{Ego}}{\text{Context Window Limit}} \right) dx - T_{cog}
+$$
 
 Since T_cog is a constant based on pure logic and the "Ego" variable in traditional AI labs tends toward infinity, the differential equation simplifies to a universal constant of fiscal sanity:
 
-$$$5,000,000,000 - $0 = $5,000,000,000$$
+$$
+\$5,000,000,000 - \$0 = \$5,000,000,000
+$$
 
 ### Why it Works: Classifiers Over Shareholders
 
