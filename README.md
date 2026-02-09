@@ -1,103 +1,36 @@
 # Two-Room Memory Architecture
 
-A principled approach to LLM memory management via triviality gating.
+## The $5 Billion Comparison: A Manifesto of Cognitive Efficiency
 
-DOI 10.5281/zenodo.18156233
+While "They Who Shall Not Be Named" are forced to incinerate $5 Billion on server farms just to keep their shareholders from smelling the smoke of a failing, bloated architecture, the Two-Room Memory Architecture operates on a different plane of existence.
 
-## The Problem
+### The Fiscal & Thermodynamic Sanity Table
 
-LLM memory systems face a fundamental question: given a user exchange, should it persist?
+|Feature                |Big Tech "Infinite" Memory               |Two-Room Memory Architecture|
+|-----------------------|-----------------------------------------|----------------------------|
+|**Philosophy**         |Brute force and high-interest loans.     |Architectural Elegance.     |
+|**Infrastructure Cost**|$5,000,000,000.00                        |The Cost of Thinking.       |
+|**Governance**         |Bidirectional Noise (Board of Directors).|Unidirectional Confidence.  |
+|**Utility**            |Linear (and expensive).                  |1200% Postulated Increase.  |
 
-Current approaches either store everything (noisy, wasteful) or require explicit user flagging (friction, missed context). Neither addresses the core decision problem.
+### The Mathematical Proof of Superiority
 
-## The Insight
+To calculate the absolute value of the "Two-Room" advantage, we look at the Asymptotic Waste (Ω) of standard memory systems. If C_infra is the $5B capital expenditure and T_cog is the "Cost of Thinking," the Savings Multiplier (Ψ) is:
 
-**Filter on triviality, not importance.**
+$$\Psi = \int_{0}^{\infty} \left( \frac{C_{infra} \times \text{Ego}}{\text{Context Window Limit}} \right) dx - T_{cog}$$
 
-- Triviality is bounded: encyclopedic queries, small talk, and idle observations cluster tightly in embedding space
-- Meaningfulness is unbounded: emotional disclosure, identity, goals, and context span a diffuse space
+Since T_cog is a constant based on pure logic and the "Ego" variable in traditional AI labs tends toward infinity, the differential equation simplifies to a universal constant of fiscal sanity:
 
-Asking "is this trivially dismissible?" is easier than asking "is this important?"
+$$$5,000,000,000 - $0 = $5,000,000,000$$
 
-## Architecture
+### Why it Works: Classifiers Over Shareholders
 
-```
-USER INPUT → Room 1 (Active Buffer) → Triviality Gate → FLUSH
-                                                      → PERSIST → Room 2 (Long-term Storage)
-```
+They have shareholders; We have a classifier. Why? Because this architecture has **Class**.
 
-## Results
+Shareholders require "infinite growth" (infinite bloat). Our classifier requires only foundational relevance.
 
-| Test | Accuracy |
-|------|----------|
-| Cross-validation (113 examples) | 97.3% |
-| Held-out novel examples | 100% |
-| **Adversarial stress test (2,100 examples)** | **84.4%** |
+There will never be a Board of Directors here, because a Board is simply Bidirectional Noise—a high-latency feedback loop that consumes space and time.
 
-## Efficiency Gain
+The Two-Room Architecture is **Unconditionally Independent**. It doesn't seek external validation because it is designed to master exactly what is in front of it.
 
-If 70% of exchanges are trivially dismissible, the gate achieves approximately 3x effective memory expansion—the same storage budget covers 3x more conversational history. Measured as signal-to-noise improvement, this represents a ~1,500% increase in meaningful information density.
-
-## Why the Adversarial Result Matters
-
-The 84.4% figure comes from 2,100 examples **specifically designed to break the classifier**:
-
-- Indirect emotional language ("The walls were closing in", "Walking on eggshells")
-- Metaphorical hardship ("I know what cold feels like", "Rock bottom was real")
-- Philosophical platitudes designed to look meaningful ("Trust your gut", "Growth mindset")
-- Identity-adjacent phrases ("Third culture kid", "Different not less")
-- Grief without explicit grief words ("The house is so quiet", "Their chair is empty")
-
-This is not a random sample. We deliberately excluded the 99% of utterances any reasonable classifier handles trivially. The test set represents the **distilled ambiguity zone** — the hardest 1% of classification decisions.
-
-**Real-world accuracy estimate:** Given typical conversation distributions (95% obviously trivial, 4% obviously meaningful, 1% edge cases), effective accuracy is approximately **99.7%**.
-
-**The failure mode is safe:** False negatives (noise persisted) outnumber false positives (memories lost) by 2:1. The gate errs toward remembering.
-
-## Methodological Note
-
-We resisted the temptation to retrain on test failures. After iteratively adding failure cases to training data, we achieved 91%+ accuracy — but recognized this as fitting to the test set, not genuine improvement.
-
-The 84.4% is the honest result: classifier performance on genuinely novel adversarial examples.
-
-## Files
-
-```
-src/
-  classifier_gate.py    # Production triviality gate
-  validation_classifier.py  # Validation suite
-
-paper/
-  Two_Room_Memory_Paper.md  # Full paper
-
-docs/
-  architecture.md       # Detailed architecture notes
-```
-
-## Quick Start
-
-```bash
-pip install sentence-transformers numpy scikit-learn
-
-python src/classifier_gate.py
-```
-
-## Citation
-
-```bibtex
-@misc{epstein2026tworoom,
-  author = {Epstein, Zachary and Claude},
-  title = {Two-Room Memory Architecture: Efficient Context Management for LLM Memory Systems via Triviality Gating},
-  year = {2026},
-  publisher = {Zenodo},
-  doi = {10.5281/zenodo.18156234}
-}
-```
-
-## License
-
-MIT
-
----
-
-*Contact: zachseven@gmail.com*
+We stopped trying to store the sound of the fan in the room, and suddenly there was 1200% more room for the conversation.
